@@ -22,8 +22,8 @@ class forward_sorted_list_node
 	bool insertChild(std::unique_ptr<forward_sorted_list_node<T> > ch)
 	{
 		if(next == nullptr){
-		next = std::move(ch);
-		return true;
+			next = std::move(ch);
+			return true;
 		}
 		return false;
 	}
@@ -33,6 +33,10 @@ class forward_sorted_list_node
 		return next.get();
 	}
 	const auto& getValue()const
+	{
+		return value;
+	}
+	auto& getValue()
 	{
 		return value;
 	}
@@ -82,7 +86,45 @@ class forward_sorted_list
 	
 	}
 	
-	std::vector<T> vectorCast()const
+	auto* findElement(T elem)
+	{
+		auto current = head.get();
+		while(current != nullptr && current->getValue() != elem)
+		{
+			current = current->getRawNext();
+		}
+		return &current->getValue();
+	}
+	
+	const auto* findElement(T elem)const
+	{
+		auto current = head.get();
+		while(current != nullptr && current->getValue() != elem)
+		{
+			current = current->getRawNext();
+		}
+		return &current->getValue();
+	}
+	
+	void pop_front()
+	{
+		if(head != nullptr){
+			auto temper = head->unlinkChild();
+			//head.reset();
+			head = std::move(temper);
+		}
+	}
+	
+	auto& front()
+	{
+		return head->getValue();
+	}	
+	const auto& front()const
+	{
+		return head->getValue();
+	}
+	
+	auto vectorCast()const
 	{
 		auto current = head.get();
 		std::vector<T> vec;

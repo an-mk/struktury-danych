@@ -11,11 +11,11 @@ prog.exe: $(OBJ)
 	$(CXX) $^ -o $@ -Wall -Wextra -std=c++14
 
 clean:
-		rm -f $(OBJ) prog.exe
+	rm -f $(OBJ) prog.exe
 		
 rebuild: clean all
 
-.PHONY: all clean
+.PHONY: all clean rebuild
 	
 debug:
 	echo $(SRC) $(OBJ)
