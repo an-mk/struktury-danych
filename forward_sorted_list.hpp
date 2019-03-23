@@ -54,8 +54,6 @@ class forward_sorted_list
 	
 	void insert(const T& value)
 	{
-		if(head == nullptr)head = std::make_unique<forward_sorted_list_node<T> >( value );
-		else{
 			auto current = head.get();
 			decltype(current) previous = nullptr;
 			while(current != nullptr && value > (*current).getValue())
@@ -81,7 +79,6 @@ class forward_sorted_list
 			if(temper != nullptr){
 				(current)->insertChild(std::move(temper));
 			}
-		}
 	
 	}
 	

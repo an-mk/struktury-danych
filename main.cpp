@@ -4,7 +4,7 @@
 int main()
 {
 	forward_sorted_list<int> list;
-	//list.insert(0);
+	list.insert(0);
 	list.insert(12);
 	list.insert(3);
 	list.insert(1);
