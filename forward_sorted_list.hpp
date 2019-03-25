@@ -93,7 +93,7 @@ class forward_sorted_list
 		{
 			current = current->getRawNext();
 		}
-		return &current->getValue();
+		return (current == nullptr) ? nullptr : &current->getValue();
 	}
 	
 	const auto* findElement(T elem)const
@@ -103,7 +103,7 @@ class forward_sorted_list
 		{
 			current = current->getRawNext();
 		}
-		return &current->getValue();
+		return (current == nullptr) ? nullptr : &current->getValue();
 	}
 	
 	void pop_front()
