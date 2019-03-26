@@ -1,11 +1,22 @@
 #include <iostream>
+#include <string>
 #include "forward_sorted_list.hpp"
+#include "binary_search_tree.h"
+
+
 
 template <typename T>
 struct TD;
 
 int main()
 {
+	binary_search_tree<int> a;
+	a.insert(7);
+	a.insert(8);
+	a.insert(6);
+	a.erase(7);
+	std::cout<<a.search(8);
+	
 	forward_sorted_list<int> list;
 	list.insert(0);
 	list.insert(12);
