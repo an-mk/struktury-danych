@@ -11,9 +11,9 @@
 std::random_device rd;
 std::mt19937 mt(rd());
 std::uniform_int_distribution<int> rng(std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
-std::vector<int> randomTestGenerator(const std::size_t& sizeOfTest)
+std::vector<int> randomTestGenerator(const std::size_t& sizeOfTestx)
 {
-    std::vector<int> ret(sizeOfTest);
+    std::vector<int> ret(sizeOfTestx);
     for(int& n : ret)
     {
         n = rng(mt);
@@ -33,9 +33,9 @@ int main()
 		return dataSets[k++];
 	};
 
-	for (int multiplier = 1; multiplier <= 15; multiplier++)
+	for (int multiplier = 0; multiplier < 15; multiplier++)
 	{
-		sizeOfTest = 1000 * multiplier;
+		sizeOfTest = 100 + 1000 * multiplier;
 		std::cout<<sizeOfTest<<std::endl;
 		forest = std::vector<binary_search_tree<int>>(100);
 		lists = std::vector<forward_sorted_list<int>>(100);
@@ -46,8 +46,8 @@ int main()
 		i = k = 0;
 		lab.setTestGenerator(dataSetForwarder);
 
-		lab([](std::vector<int> dataSet) {
-			for (const auto& el : dataSet)
+		lab([](std::vector<int>& dataSet) {
+			for (const auto& el : dataSets[i])
 				forest[i].insert(el);
 			//forest[i].inOrder([](int x) {
 			//	std::cout<<x<<" ";
@@ -56,17 +56,17 @@ int main()
 			i++;
 		}, "BST - wstawianie");
 
-		int s = 0;
-		for (auto& tree : forest)
-			s+=tree.height();
-		s/=forest.size();
-		std::cout<<"BST - wysokość "<<s<<std::endl;
+		//int s = 0;
+		//for (auto& tree : forest)
+		//	s+=tree.height();
+		//s/=forest.size();
+		//std::cout<<"BST - wysokość "<<s<<std::endl;
 
 		i = k = 0;
 		lab.setTestGenerator(dataSetForwarder);
 
-		lab([](std::vector<int> dataSet) {
-			for (const auto& el : dataSet)
+		lab([](std::vector<int>& dataSet) {
+			for (const auto& el : dataSets[i])
 				forest[i].search(el);
 			i++;
 		}, "BST - wyszukiwanie");
@@ -74,7 +74,7 @@ int main()
 		i = k = 0;
 		lab.setTestGenerator(dataSetForwarder);
 
-		lab([](std::vector<int> dataSet) {
+		lab([](std::vector<int>& dataSet) {
 			//std::cout<<forest[i].height()<<"\n";
 			forest[i++].postOrderClear();
 		}, "BST - usuwanie");
@@ -82,8 +82,8 @@ int main()
 		i = k = 0;
 		lab.setTestGenerator(dataSetForwarder);
 
-		lab([](std::vector<int> dataSet) {
-			for (const auto& el : dataSet)
+		lab([](std::vector<int>& dataSet) {
+			for (const auto el : dataSets[i])
 				lists[i].insert(el);
 			i++;
 		}, "Lista - wstawianie");
@@ -91,8 +91,8 @@ int main()
 		i = k = 0;
 		lab.setTestGenerator(dataSetForwarder);
 
-		lab([](std::vector<int> dataSet) {
-			for (const auto& el : dataSet)
+		lab([](std::vector<int>& dataSet) {
+			for (const auto el : dataSets[i])
 				lists[i].findElement(el);
 			i++;
 		}, "Lista - wyszukiwanie");
@@ -100,7 +100,7 @@ int main()
 		i = k = 0;
 		lab.setTestGenerator(dataSetForwarder);
 
-		lab([](std::vector<int> dataSet) {
+		lab([](std::vector<int>& dataSet) {
 			int j = sizeOfTest;
 			while (j--)
 				lists[i].pop_front();
@@ -108,5 +108,7 @@ int main()
 		}, "Lista - usuwanie");
 
 	}
+	char x;
+	std::cin>>x;
 	return 0;
 }

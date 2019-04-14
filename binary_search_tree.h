@@ -2,6 +2,7 @@
 #define _BINARY_SEARCH_TREE_H_
 #include <memory>
 #include <ostream>
+#include <iostream>
 
 template <class T>
 class binary_search_tree
@@ -13,22 +14,22 @@ public:
     class binary_search_tree_node
     {
     public:
-        binary_search_tree_node(T k) : key(std::make_unique<T>(k)), left(nullptr), right(nullptr) {}
+        binary_search_tree_node(T k) : key(k), left(nullptr), right(nullptr) {}
 
-        operator const T& () const { return *key; }
+        operator const T& () const { return key; }
         
         friend binary_search_tree<T>;
     private:
-        std::unique_ptr<T> key;
+        T key;
         std::unique_ptr<binary_search_tree_node<T>> left, right;
     };
 
     using node = binary_search_tree_node<T>;
     using node_ptr = std::unique_ptr<node>;
 
-    bool search(T key) { return search(key, root); }
+    bool search(T key) const noexcept { return search(key, root); }
 
-    bool search(T key, const node_ptr& it)
+    bool search(T key, const node_ptr& it) const noexcept
     {
         if (!it)
             return false;
@@ -38,6 +39,20 @@ public:
             return search(key, it->left);
         else
             return search(key, it->right);
+        /*
+        node* it = i.get();
+        while (true)
+        {
+            if (*it == key)
+                return true;
+            if (key < *it)
+                if (it->left) it = it->left.get();
+                else return false;
+            else
+                if (it->right) it = it->right.get();
+                else return false;
+        }
+        */
     }
 
     void insert(T key) { insert(key, root); }
