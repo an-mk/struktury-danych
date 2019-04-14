@@ -74,17 +74,6 @@ public:
         
     }
 
-    inline static node_ptr npos{nullptr};
-
-private:
-
-    node_ptr& min(node_ptr& it)
-    {
-        if (it->left)
-            return it->left;
-        return it;
-    }
-
     node_ptr& find(T key) { return find(key, root); }
 
     node_ptr& find(T key, node_ptr& it)
@@ -98,6 +87,59 @@ private:
         else
             return find(key, it->right);
     }
+
+    template<class F>
+    void inOrder(F f)
+    {
+        if (!root)
+            return;
+        inOrder(f, root->left);
+        f((T)*root);
+        inOrder(f, root->right);
+    }
+
+    template<class F>
+    void inOrder(F f, node_ptr& it)
+    {
+        if (!it)
+            return;
+        inOrder(f, it->left);
+        f((T)*it);
+        inOrder(f, it->right);
+    }
+
+    std::size_t height() { return height(root); }
+
+    std::size_t height(node_ptr& it)
+    {
+        if (!it) return 0;
+        return std::max(height(it->left) + 1, height(it->right) + 1);
+    }
+
+    [[deprecated("unnecessary")]]
+    void postOrderClear() { postOrderClear(root); }
+
+    [[deprecated("unnecessary")]]
+    void postOrderClear(node_ptr& it)
+    {
+        if (it->left) postOrderClear(it->left);
+        if (it->right) postOrderClear(it->right);
+        //it.reset();
+        it = node_ptr();
+    }
+
+    inline static node_ptr npos{nullptr};
+
+private:
+
+    node_ptr& min(node_ptr& it)
+    {
+        if (it->left)
+            return it->left;
+        return it;
+    }
+
+    
     std::unique_ptr<node> root;
 };
 
